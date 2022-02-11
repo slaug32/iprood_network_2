@@ -8,16 +8,14 @@ const ProfileInfo = (props) => {
     return <Preloader />;
   }
 
-  return (
-    <div>
+  return <div>
       <div className={s.descriptionBlock}>
         <img src={props.profile.photos.large} />
         <div>
-          <ProfileStatus />
+          <ProfileStatus status={props.status} updateUserStatus={props.updateUserStatus} />
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
 
 export default ProfileInfo;
