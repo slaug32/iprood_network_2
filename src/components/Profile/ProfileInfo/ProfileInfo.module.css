@@ -1,3 +1,9 @@
 .descriptionBlock {
-    padding: 10px;
+  padding: 10px;
+}
+
+.photo {
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
 }

@@ -1,9 +1,9 @@
 import { ProfileAPI, usersAPI } from "../api/api";
 
 const ADD_POST = "ADD-POST";
-// const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_USER_STATUS = "SET_USER_STATUS";
+const SET_PHOTO_PROFILE = "SET_PHOTO_PROFILE";
 
 let initialState = {
   posts: [
@@ -12,7 +12,6 @@ let initialState = {
     { id: 3, message: "Blabla", likesCount: 11 },
     { id: 4, message: "Dada", likesCount: 11 },
   ],
-  // newPostText: "it-kamasutra.com",
   profile: null,
   status: "",
 };
@@ -25,17 +24,19 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         posts: [...state.posts, newPost],
-        // newPostText: "",
       };
     }
-    // case UPDATE_NEW_POST_TEXT: {
-    //   return { ...state, newPostText: action.newText };
-    // }
     case SET_USER_PROFILE: {
       return { ...state, profile: action.profile };
     }
     case SET_USER_STATUS: {
       return { ...state, status: action.status };
+    }
+    case SET_PHOTO_PROFILE: {
+      return {
+        ...state,
+        profile: [...state.profile, { photos: action.photos }],
+      };
     }
     default:
       return state;
@@ -52,29 +53,33 @@ export const setUserProfile = (profile) => ({
   profile,
 });
 
-export const getUserProfile = (userId) => (dispatch) => {
-  usersAPI.getProfile(userId).then((response) => {
-    dispatch(setUserProfile(response.data));
-  });
+export const savePhotoSuccess = (photos) => ({
+  type: SET_PHOTO_PROFILE,
+  photos,
+});
+
+export const getUserProfile = (userId) => async (dispatch) => {
+  let response = await usersAPI.getProfile(userId);
+  dispatch(setUserProfile(response.data));
 };
 
-export const getUserStatus = (userId) => (dispatch) => {
-  ProfileAPI.getStatus(userId).then((response) => {
-    dispatch(setStatus(response.data));
-  });
+export const getUserStatus = (userId) => async (dispatch) => {
+  let response = await ProfileAPI.getStatus(userId);
+  dispatch(setStatus(response.data));
 };
 
-export const updateUserStatus = (status) => (dispatch) => {
-  ProfileAPI.getStatus(status).then((response) => {
-    if (response.data.resultCode === 0) {
-      dispatch(setStatus(status));
-    }
-  });
+export const updateUserStatus = (status) => async (dispatch) => {
+  let response = await ProfileAPI.getStatus(status);
+  if (response.data.resultCode === 0) {
+    dispatch(setStatus(status));
+  }
 };
 
-// export const updateNewPostTextActionCreator = (text) => ({
-//   type: UPDATE_NEW_POST_TEXT,
-//   newText: text,
-// });
+export const savePhoto = (file) => async (dispatch) => {
+  let response = await ProfileAPI.savePhoto(file);
+  if (response.data.resultCode === 0) {
+    dispatch(savePhotoSuccess(response.data.photos));
+  }
+};
 
 export default profileReducer;

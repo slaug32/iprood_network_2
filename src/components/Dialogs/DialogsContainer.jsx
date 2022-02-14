@@ -10,7 +10,7 @@ import { compose } from "redux";
 
 let mapStateToProps = (state) => {
   return {
-    dialogsPage: state.dialogsPage,
+    dialogs: state.dialogs,
   };
 };
 let mapDispatchToProps = (dispatch) => {

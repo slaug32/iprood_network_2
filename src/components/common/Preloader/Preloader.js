@@ -3,8 +3,15 @@ import preloader from "../../../assets/images/preloader";
 
 let Preloader = (props) => {
   return (
-    <div style={{ backgroundColor: "white" }}>
-      <img src={preloader} />
+    <div>
+      <img
+        style={{
+          backgroundColor: "white",
+          width: "100px",
+          borderRadius: "100%",
+        }}
+        src={preloader}
+      />
     </div>
   );
 };

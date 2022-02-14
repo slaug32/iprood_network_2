@@ -7,7 +7,7 @@ import { Field } from "redux-form";
 import MassageReduxForm from "./MassageForm";
 
 const Dialogs = (props) => {
-  let state = props.dialogsPage;
+  let state = props.dialogs;
 
   let dialogsElements = state.dialogs.map((d) => (
     <DialogItem name={d.name} key={d.id} id={d.id} />

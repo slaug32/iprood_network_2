@@ -42,7 +42,7 @@ let store = {
         return this._state;
     },
     subscribe(observer) {
-        this._callSubscriber = observer;  // observer
+        this._callSubscriber = observer;  
     },
 
     dispatch(action) {
@@ -57,4 +57,3 @@ let store = {
 
 export default store;
 window.store = store;
-// store - OOP
