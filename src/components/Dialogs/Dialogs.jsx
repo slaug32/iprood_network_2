@@ -5,9 +5,16 @@ import Message from "./Message/Message";
 import { Redirect } from "react-router-dom";
 import { Field } from "redux-form";
 import MassageReduxForm from "./MassageForm";
+import { initialStateType } from "../../redux/dialogs_reducer";
 
-const Dialogs = (props) => {
-  let state = props.dialogs;
+// type PropsType = {
+//   dialogs: initialStateType;
+//   sendMessage: (values: string) => void;
+//   isAuth: boolean;
+// };
+// : React.FC<PropsType>
+const Dialogs = ({ dialogs, sendMessage, isAuth }) => {
+  let state = dialogs;
 
   let dialogsElements = state.dialogs.map((d) => (
     <DialogItem name={d.name} key={d.id} id={d.id} />
@@ -16,18 +23,11 @@ const Dialogs = (props) => {
     <Message message={m.message} key={m.id} />
   ));
 
-  //   let newMessageBody = state.newMessageBody;
-
-  //   let onNewMessageChange = (e) => {
-  //     let body = e.target.value;
-  //     props.updateNewMessageBody(body);
-  //   };
-
   const handleSubmit = (values) => {
-    props.sendMessage(values.newMassageBody);
+    sendMessage(values.newMassageBody);
   };
 
-  if (!props.isAuth) return <Redirect to={"/login"} />;
+  if (!isAuth) return <Redirect to={"/login"} />;
 
   return (
     <div className={s.dialogs}>

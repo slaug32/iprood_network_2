@@ -1,18 +1,22 @@
 // import { authAPI } from "../api/api";
 // import { stopSubmit } from "redux-form";
+import { Dispatch } from "redux";
 import { getAuthUserData } from "./auth_reducer";
-
-const INITIALIZED = "INITIALIZED";
+import { GlobalActionsTypes } from "./redux_store";
 
 let initialState = {
   initialized: false as boolean,
 };
 
 type initialStateType = typeof initialState;
+type ActionsTypes = GlobalActionsTypes<typeof actions>;
 
-const appReducer = (state = initialState, action: any): initialStateType => {
+const appReducer = (
+  state = initialState,
+  action: ActionsTypes
+): initialStateType => {
   switch (action.type) {
-    case INITIALIZED:
+    case "INITIALIZED":
       return {
         ...state,
         initialized: true,
@@ -24,7 +28,7 @@ const appReducer = (state = initialState, action: any): initialStateType => {
 };
 
 export const actions = {
-  initializedSuccess: () => ({ type: INITIALIZED } as const),
+  initializedSuccess: () => ({ type: "INITIALIZED" } as const),
 };
 
 export const initialize = () => async (dispatch: any) => {

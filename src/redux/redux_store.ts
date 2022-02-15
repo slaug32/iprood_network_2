@@ -18,8 +18,19 @@ let reducers = combineReducers({
   app,
 });
 
+type RootReducerType = typeof reducers;
+
+export type AppStateType = ReturnType<RootReducerType>;
+
+export type GlobalActionsTypes<T> = T extends {
+  [keys: string]: (...args: any[]) => infer U;
+}
+  ? U
+  : never;
+
 let store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
+// @ts-ignore
 window.store = store;
 
 export default store;

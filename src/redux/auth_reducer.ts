@@ -1,6 +1,6 @@
-import { authAPI } from "../api/api";
-
-const SET_USER_DATA = "SET_USER_DATA";
+import { Dispatch } from "redux";
+import { authAPI, ResultCode } from "../api/authApi";
+import { GlobalActionsTypes } from "./redux_store";
 
 let initialState = {
   userId: null as number | null,
@@ -10,10 +10,14 @@ let initialState = {
 };
 
 type initialStateType = typeof initialState;
+type ActionsTypes = GlobalActionsTypes<typeof actions>;
 
-const authReducer = (state = initialState, action: any): initialStateType => {
+const authReducer = (
+  state = initialState,
+  action: ActionsTypes
+): initialStateType => {
   switch (action.type) {
-    case SET_USER_DATA:
+    case "SET_USER_DATA":
       return {
         ...state,
         ...action.data,
@@ -24,40 +28,42 @@ const authReducer = (state = initialState, action: any): initialStateType => {
   }
 };
 
-const actions = {
+export const actions = {
   setAuthUserData: (
-    userId: number,
-    email: string,
-    login: string,
+    userId: number | null,
+    email: string | null,
+    login: string | null,
     isAuth: boolean
   ) =>
     ({
-      type: SET_USER_DATA,
+      type: "SET_USER_DATA",
       data: { userId, email, login, isAuth },
     } as const),
 };
 
-export const getAuthUserData = () => async (dispatch: any) => {
-  let response = await authAPI.me();
-  if (response.data.resultCode === 0) {
-    let { id, login, email } = response.data.data;
-    dispatch(actions.setAuthUserData(id, email, login, true));
-  }
-};
+export const getAuthUserData =
+  () => async (dispatch: Dispatch<ActionsTypes>) => {
+    let meData = await authAPI.me();
+    if (meData.resultCode === ResultCode.Success) {
+      let { id, login, email } = meData.data;
+      dispatch(actions.setAuthUserData(id, email, login, true));
+    }
+  };
 
 export const LoginThunk =
-  (email: string, password: string, rememberMe: boolean) =>
+  (email: string | null, password: string | null, rememberMe: boolean) =>
   async (dispatch: any) => {
-    let response = await authAPI.login(email, password, rememberMe);
-    if (response.data.resultCode === 0) {
+    let loginData = await authAPI.login(email, password, rememberMe);
+    if (loginData.resultCode === 0) {
+      // @ts-ignore
       dispatch(actions.setAuthUserData());
     }
   };
 
-export const LogOutThunk = () => async (dispatch: any) => {
+export const LogOutThunk = () => async (dispatch: Dispatch<ActionsTypes>) => {
   let response = await authAPI.logOut();
   if (response.data.resultCode === 0) {
-    dispatch(actions.setAuthUserData(null, null, null, null, false));
+    dispatch(actions.setAuthUserData(null, null, null, false));
   }
 };
 
