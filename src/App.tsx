@@ -13,8 +13,15 @@ import { initialize } from "./redux/app_reducer";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 import Preloader from "./components/common/Preloader/Preloader";
+import { AppStateType } from "./redux/redux_store";
+import PlugComponent from "./components/PlugComponent/PlugComponent";
 
-class App extends React.Component {
+type AppPropsType = {
+  initialize: () => void;
+  initialized: boolean;
+};
+
+class App extends React.Component<AppPropsType> {
   componentDidMount() {
     this.props.initialize();
   }
@@ -35,7 +42,9 @@ class App extends React.Component {
             />
 
             <Route path='/users' render={() => <UsersContainer />} />
-
+            <Route path='/news' render={() => <PlugComponent />} />
+            <Route path='/music' render={() => <PlugComponent />} />
+            <Route path='/settings' render={() => <PlugComponent />} />
             <Route path='/login' render={() => <LoginPage />} />
           </div>
         </div>
@@ -44,7 +53,7 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized,
 });
 

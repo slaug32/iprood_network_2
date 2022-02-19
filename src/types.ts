@@ -36,3 +36,9 @@ export type DialogsType = {
   id: number;
   name: string;
 };
+
+export type PostsType = {
+  id: number;
+  message: string;
+  likesCount: number;
+};

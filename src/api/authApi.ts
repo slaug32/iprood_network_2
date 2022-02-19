@@ -1,29 +1,28 @@
-import { instance } from "./usersApi";
+import { instance, MyResponseType, ResultCode } from "./api";
 
-export enum ResultCode {
-  Success = 0,
-  Error = 1,
-}
-
-type meResponseType = {
-  data: { id: number; email: string; login: string };
-  resultCode: ResultCode;
-  messages: Array<string>;
+type DataType = {
+  id: number;
+  email: string;
+  login: string;
 };
 
 type LoginType = {
-  data: { userId: number };
-  resultCode: ResultCode;
-  messages: Array<string>;
+  userId: number;
 };
 
 export const authAPI = {
   me() {
-    return instance.get<meResponseType>(`auth/me`).then((res) => res.data);
+    return instance
+      .get<MyResponseType<DataType>>(`auth/me`)
+      .then((res) => res.data);
   },
   login(email: string | null, password: string | null, rememberMe = false) {
     return instance
-      .post<LoginType>(`auth/login`, { email, password, rememberMe })
+      .post<MyResponseType<LoginType, ResultCode>>(`auth/login`, {
+        email,
+        password,
+        rememberMe,
+      })
       .then((res) => res.data);
   },
   logOut() {

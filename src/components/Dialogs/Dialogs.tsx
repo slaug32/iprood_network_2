@@ -3,17 +3,16 @@ import s from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import { Redirect } from "react-router-dom";
-import { Field } from "redux-form";
 import MassageReduxForm from "./MassageForm";
 import { initialStateType } from "../../redux/dialogs_reducer";
 
-// type PropsType = {
-//   dialogs: initialStateType;
-//   sendMessage: (values: string) => void;
-//   isAuth: boolean;
-// };
-// : React.FC<PropsType>
-const Dialogs = ({ dialogs, sendMessage, isAuth }) => {
+type PropsType = {
+  dialogs: initialStateType;
+  sendMessage: (massageText: string) => void;
+  isAuth: boolean;
+};
+
+const Dialogs: React.FC<PropsType> = ({ dialogs, sendMessage, isAuth }) => {
   let state = dialogs;
 
   let dialogsElements = state.dialogs.map((d) => (
@@ -23,7 +22,7 @@ const Dialogs = ({ dialogs, sendMessage, isAuth }) => {
     <Message message={m.message} key={m.id} />
   ));
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: any) => {
     sendMessage(values.newMassageBody);
   };
 

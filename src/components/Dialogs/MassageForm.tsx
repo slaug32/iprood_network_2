@@ -1,8 +1,7 @@
 import React from "react";
-import s from "./Dialogs.module.css";
-import { Field, reduxForm } from "redux-form";
+import { Field, InjectedFormProps, reduxForm } from "redux-form";
 
-const addMassageForm = (props) => {
+const addMassageForm: React.FC<InjectedFormProps> = (props) => {
   return (
     <form onSubmit={props.handleSubmit}>
       <div>

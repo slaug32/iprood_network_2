@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { Field, reduxForm } from "redux-form";
+import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { LoginThunk } from "../../redux/auth_reducer";
+import { AppStateType } from "../../redux/redux_store";
 
-const LoginForm = (props) => {
+const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType>> = (props) => {
   return (
     <form onSubmit={props.handleSubmit}>
       <div>
@@ -33,12 +34,28 @@ const LoginForm = (props) => {
   );
 };
 
-const LoginReduxForm = reduxForm({
+const LoginReduxForm = reduxForm<LoginFormValuesType>({
   form: "login",
 })(LoginForm);
 
-const Login = (props) => {
-  const handleSubmit = (formData) => {
+type LoginFormValuesType = {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+};
+
+type mapStateToPropsType = {
+  isAuth: boolean;
+};
+
+type mapDispatchToPropsType = {
+  LoginThunk: (email: string, password: string, rememberMe: boolean) => void;
+};
+
+const Login: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
+  props
+) => {
+  const handleSubmit = (formData: any) => {
     props.LoginThunk(formData.email, formData.password, formData.rememberMe);
   };
 
@@ -54,6 +71,8 @@ const Login = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({ isAuth: state.auth.isAuth });
+const mapStateToProps = (state: AppStateType): mapStateToPropsType => ({
+  isAuth: state.auth.isAuth,
+});
 
 export default connect(mapStateToProps, { LoginThunk })(Login);

@@ -1,9 +1,7 @@
 import React from "react";
-import { reduxForm, Field } from "redux-form";
-// import Field from "redux-form/lib/Field";
-// import s from "./MyPosts.module.css";
+import { reduxForm, Field, InjectedFormProps } from "redux-form";
 
-const addPostForm = (props) => {
+const addPostForm: React.FC<InjectedFormProps> = (props) => {
   return (
     <form onSubmit={props.handleSubmit}>
       <div>

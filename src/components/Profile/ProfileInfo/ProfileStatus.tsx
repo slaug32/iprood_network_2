@@ -1,6 +1,11 @@
 import React from "react";
 
-class ProfileStatus extends React.Component {
+type PropsType = {
+  status: string;
+  updateUserStatus: (status: string) => void;
+};
+
+class ProfileStatus extends React.Component<PropsType> {
   state = {
     aditMode: false,
     status: this.props.status,
@@ -15,26 +20,11 @@ class ProfileStatus extends React.Component {
     this.props.updateUserStatus(this.state.status);
   };
 
-  onStatusChange = (event) => {
+  onStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       status: event.currentTarget.value,
     });
   };
-
-  componentDidMount() {
-    console.log("componentDidMount");
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    // console.log("componentDidUpdate");
-    // debugger;
-    let a = this.state;
-    let b = this.props;
-  }
-
-  // componentWillUnmount() {
-  //   console.log("componentWillUnmount");
-  // }
 
   render() {
     return (

@@ -7,13 +7,33 @@ import {
   updateUserStatus,
   savePhoto,
 } from "../../redux/profile_reducer";
-import { withRouter } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 import { AuthRedirect } from "../../hoc/authRedirect";
 import { compose } from "redux";
+import { AppStateType } from "../../redux/redux_store";
+import { ProfileType } from "../../types";
 
-class ProfileContainer extends React.Component {
+type MapStatePropsType = ReturnType<typeof mapStateToProps>;
+
+type OwnPropsType = {
+  getUserProfile: (userId: number) => void;
+  getUserStatus: (userId: number) => void;
+  updateUserStatus: (status: string) => void;
+  savePhoto: (file: File) => void;
+  profile: ProfileType;
+};
+
+type PathParams = {
+  userId: string;
+};
+
+type PropsType = MapStatePropsType &
+  OwnPropsType &
+  RouteComponentProps<PathParams>;
+
+class ProfileContainer extends React.Component<PropsType> {
   ProfileResult() {
-    let userId = this.props.match.params.userId;
+    let userId: any = this.props.match.params.userId;
     if (!userId) {
       userId = 2;
       if (!userId) {
@@ -28,7 +48,7 @@ class ProfileContainer extends React.Component {
     this.ProfileResult();
   }
 
-  componentDidUpdate(prevProps, prevState, params) {
+  componentDidUpdate(prevProps: PropsType) {
     if (this.props.match.params.userId != prevProps.match.params.userId) {
       this.ProfileResult();
     }
@@ -37,8 +57,8 @@ class ProfileContainer extends React.Component {
   render() {
     return (
       <Profile
-        isOwner={!this.props.match.params.userId}
         {...this.props}
+        isOwner={!this.props.match.params.userId}
         profile={this.props.profile}
         status={this.props.status}
         updateUserStatus={this.props.updateUserStatus}
@@ -48,12 +68,13 @@ class ProfileContainer extends React.Component {
   }
 }
 
-let mapStateToProps = (state) => ({
+let mapStateToProps = (state: AppStateType) => ({
   profile: state.profile.profile,
   status: state.profile.status,
+  // authorizedUserId: state.auth.authorizedUserId,
 });
 
-export default compose(
+export default compose<React.ComponentType>(
   connect(mapStateToProps, {
     getUserProfile,
     getUserStatus,

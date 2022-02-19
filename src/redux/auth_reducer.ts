@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
-import { authAPI, ResultCode } from "../api/authApi";
+import { authAPI } from "../api/authApi";
+import { ResultCode } from "../api/api";
 import { GlobalActionsTypes } from "./redux_store";
 
 let initialState = {

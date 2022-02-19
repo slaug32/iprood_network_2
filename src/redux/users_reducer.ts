@@ -107,8 +107,8 @@ export const getUsers = (currentPage: number, pageSize: number) => {
 export const follow = (userId: number) => {
   return async (dispatch: any) => {
     dispatch(actions.toggleFollowingProgress(true, userId));
-    let response = await usersAPI.follow(userId);
-    if (response.data.resultCode == 0) {
+    let data = await usersAPI.follow(userId);
+    if (data.resultCode == 0) {
       dispatch(actions.followSuccess(userId));
     }
     dispatch(actions.toggleFollowingProgress(false, userId));
@@ -118,8 +118,8 @@ export const follow = (userId: number) => {
 export const unfollow = (userId: number) => {
   return async (dispatch: Dispatch<ActionsTypes>) => {
     dispatch(actions.toggleFollowingProgress(true, userId));
-    let response = await usersAPI.unfollow(userId);
-    if (response.data.resultCode == 0) {
+    let data = await usersAPI.unfollow(userId);
+    if (data.resultCode == 0) {
       dispatch(actions.unfollowSuccess(userId));
     }
     dispatch(actions.toggleFollowingProgress(false, userId));

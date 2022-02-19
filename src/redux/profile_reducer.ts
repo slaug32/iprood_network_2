@@ -1,14 +1,8 @@
-import { PhotoType, ProfileType } from "./../types";
+import { PhotoType, PostsType, ProfileType } from "./../types";
 import { ProfileAPI } from "../api/profileApi";
 import { usersAPI } from "../api/usersApi";
 import { GlobalActionsTypes } from "./redux_store";
 import { Dispatch } from "redux";
-
-type PostsType = {
-  id: number;
-  message: string;
-  likesCount: number;
-};
 
 let initialState = {
   posts: [
@@ -19,6 +13,7 @@ let initialState = {
   ] as Array<PostsType>,
   profile: null as ProfileType | null,
   status: "" as string,
+  newPostText: "" as string,
 };
 
 type initialStateType = typeof initialState;
@@ -30,11 +25,11 @@ const profileReducer = (
 ): initialStateType => {
   switch (action.type) {
     case "ADD_POST": {
-      console.log(action.newPostText);
       let newPost = { id: 5, message: action.newPostText, likesCount: 0 };
       return {
         ...state,
         posts: [...state.posts, newPost],
+        newPostText: "",
       };
     }
     case "SET_USER_PROFILE": {
@@ -80,27 +75,30 @@ export const actions = {
 
 export const getUserProfile =
   (userId: number) => async (dispatch: Dispatch<ActionsTypes>) => {
-    let response = await usersAPI.getProfile(userId);
-    dispatch(actions.setUserProfile(response.data));
+    let data = await usersAPI.getProfile(userId);
+    dispatch(actions.setUserProfile(data));
   };
 
-export const getUserStatus = (userId: number) => async (dispatch: any) => {
-  let response = await ProfileAPI.getStatus(userId);
-  dispatch(actions.setStatus(response.data));
-};
+export const getUserStatus =
+  (userId: number) => async (dispatch: Dispatch<ActionsTypes>) => {
+    let data = await ProfileAPI.getStatus(userId);
+    dispatch(actions.setStatus(data));
+  };
 
-export const updateUserStatus = (status: string) => async (dispatch: any) => {
-  let response = await ProfileAPI.updateStatus(status);
-  if (response.data.resultCode === 0) {
-    dispatch(actions.setStatus(status));
-  }
-};
+export const updateUserStatus =
+  (status: string) => async (dispatch: Dispatch<ActionsTypes>) => {
+    let data = await ProfileAPI.updateStatus(status);
+    if (data.resultCode === 0) {
+      dispatch(actions.setStatus(status));
+    }
+  };
 
-export const savePhoto = (file: any) => async (dispatch: any) => {
-  let response = await ProfileAPI.savePhoto(file);
-  if (response.data.resultCode === 0) {
-    dispatch(actions.savePhotoSuccess(response.data.photos));
-  }
-};
+export const savePhoto =
+  (file: any) => async (dispatch: Dispatch<ActionsTypes>) => {
+    let data = await ProfileAPI.savePhoto(file);
+    if (data.resultCode === 0) {
+      dispatch(actions.savePhotoSuccess(data.data.photos));
+    }
+  };
 
 export default profileReducer;

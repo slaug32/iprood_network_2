@@ -4,18 +4,21 @@ import userPhoto from "../../assets/images/user.png";
 import { NavLink } from "react-router-dom";
 import { UsersType } from "../../types";
 
-type UsersPropsType = {
+export type MapStatePropsType = {
   users: Array<UsersType>;
   totalUsersCount: number;
   pageSize: number;
   currentPage: number;
-  onPageChanged: (pages: number) => void;
   followingInProgress: Array<number>;
+};
+
+export type MapDispatchPropsType = {
+  onPageChanged: (pages: number) => void;
   unfollow: (userId: number) => void;
   follow: (userId: number) => void;
 };
 
-let Users: React.FC<UsersPropsType> = ({
+let Users: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
   totalUsersCount,
   pageSize,
   currentPage,

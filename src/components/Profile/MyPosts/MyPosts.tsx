@@ -1,25 +1,21 @@
 import React from "react";
+import { InjectedFormProps } from "redux-form";
+import { PostsType } from "../../../types";
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
 import PostReduxForm from "./PostForm";
 
-const MyPosts = (props) => {
+export type MapPropsType = { posts: Array<PostsType> };
+export type DispatchPropsType = { addPost: (newPostText: string) => void };
+
+const MyPosts: React.FC<
+  InjectedFormProps & MapPropsType & DispatchPropsType
+> = (props) => {
   let postsElements = props.posts.map((p) => (
     <Post message={p.message} likesCount={p.likesCount} />
   ));
 
-  //   let newPostElement = React.createRef();
-
-  //   let onAddPost = () => {
-
-  //   };
-
-  //   let onPostChange = () => {
-  //     let text = newPostElement.current.value;
-  //     props.updateNewPostText(text);
-  //   };
-
-  let SubmitForm = (values) => {
+  let SubmitForm = (values: any) => {
     props.addPost(values.newPostText);
   };
 
