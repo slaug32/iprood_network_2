@@ -6,7 +6,6 @@
 
   grid-template-rows: 60px 1fr;
   grid-template-columns: 2fr 10fr;
-  /* grid-gap: 10px; */
 }
 
 .app-wrapper-content {
@@ -14,12 +13,17 @@
   background-color: blue;
 }
 
-/*
+/* .nav {
+  grid-area: n;
+  background-color: #7b68ee;
+  padding: 20px;
+}
 
-/messages
-/dialogs
+.item a {
+  color: blue;
+  text-decoration: none;
+}
 
-/dialogs/3
-/dialogs/2
-
-*/
+.item a.activeLink {
+  color: blue;
+} */

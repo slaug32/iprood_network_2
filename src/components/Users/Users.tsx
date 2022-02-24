@@ -2,33 +2,51 @@ import React from "react";
 import s from "./users.module.css";
 import userPhoto from "../../assets/images/user.png";
 import { NavLink } from "react-router-dom";
-import { UsersType } from "../../types";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getCurrentPage,
+  getFollowingInProgress,
+  getPageSize,
+  getTotalUsersCount,
+  getUsersSelector,
+} from "../../redux/users_selectors";
+import { getUsers } from "../../redux/users_reducer";
 
-export type MapStatePropsType = {
-  users: Array<UsersType>;
-  totalUsersCount: number;
-  pageSize: number;
-  currentPage: number;
-  followingInProgress: Array<number>;
-};
+export type MapStatePropsType = {};
 
 export type MapDispatchPropsType = {
-  onPageChanged: (pages: number) => void;
   unfollow: (userId: number) => void;
   follow: (userId: number) => void;
 };
 
-let Users: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
-  totalUsersCount,
-  pageSize,
-  currentPage,
-  onPageChanged,
-  followingInProgress,
-  unfollow,
-  follow,
-  users,
-}) => {
+let Users: React.FC<MapStatePropsType & MapDispatchPropsType> = (props) => {
+  const totalUsersCount = useSelector(getTotalUsersCount);
+  const pageSize = useSelector(getPageSize);
+  const currentPage = useSelector(getCurrentPage);
+  const followingInProgress = useSelector(getFollowingInProgress);
+  const users = useSelector(getUsersSelector);
+
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    // @ts-ignore
+    dispatch(getUsers(currentPage, pageSize));
+  }, []);
+
+  // @ts-ignore
   let pagesCount = Math.ceil(totalUsersCount / pageSize);
+
+  const onPageChanged = (pages: number) => {
+    // @ts-ignore
+    dispatch(getUsers(pages, pageSize));
+  };
+
+  const unfollow = (userId: number) => {
+    dispatch(unfollow(userId));
+  };
+  const follow = (userId: number) => {
+    dispatch(follow(userId));
+  };
 
   let pages = [];
   for (let i = 1; i <= pagesCount; i++) {
@@ -41,7 +59,8 @@ let Users: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
         {pages.map((p) => {
           return (
             <span
-              // className={currentPage === p && s.selectedPage}
+              // @ts-ignore
+              className={currentPage === p && s.selectedPage}
               onClick={(e) => {
                 onPageChanged(p);
               }}>
