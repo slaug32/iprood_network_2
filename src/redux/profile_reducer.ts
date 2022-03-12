@@ -13,7 +13,6 @@ let initialState = {
   ] as Array<PostsType>,
   profile: null as ProfileType | null,
   status: "" as string,
-  newPostText: "" as string,
 };
 
 type initialStateType = typeof initialState;
@@ -29,7 +28,6 @@ const profileReducer = (
       return {
         ...state,
         posts: [...state.posts, newPost],
-        newPostText: "",
       };
     }
     case "SET_USER_PROFILE": {

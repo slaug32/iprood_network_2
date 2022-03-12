@@ -1,4 +1,3 @@
-import { Dispatch } from "redux";
 import { getAuthUserData } from "./auth_reducer";
 import { GlobalActionsTypes } from "./redux_store";
 

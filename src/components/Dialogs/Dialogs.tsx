@@ -2,7 +2,6 @@ import React from "react";
 import s from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import { Redirect } from "react-router-dom";
 import MassageReduxForm from "./MassageForm";
 import { initialStateType } from "../../redux/dialogs_reducer";
 
@@ -26,7 +25,7 @@ const Dialogs: React.FC<PropsType> = ({ dialogs, sendMessage, isAuth }) => {
     sendMessage(values.newMassageBody);
   };
 
-  if (!isAuth) return <Redirect to={"/login"} />;
+  // if (!isAuth) return <Redirect to={"/login"} />;
 
   return (
     <div className={s.dialogs}>

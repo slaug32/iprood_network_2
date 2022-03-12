@@ -1,7 +1,4 @@
 import React from "react";
-import s from "./users.module.css";
-import userPhoto from "../../assets/images/user.png";
-import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCurrentPage,
@@ -11,15 +8,11 @@ import {
   getUsersSelector,
 } from "../../redux/users_selectors";
 import { getUsers } from "../../redux/users_reducer";
+import User from "./User";
 
-export type MapStatePropsType = {};
+export type PropsType = {};
 
-export type MapDispatchPropsType = {
-  unfollow: (userId: number) => void;
-  follow: (userId: number) => void;
-};
-
-let Users: React.FC<MapStatePropsType & MapDispatchPropsType> = (props) => {
+let Users: React.FC<PropsType> = (props) => {
   const totalUsersCount = useSelector(getTotalUsersCount);
   const pageSize = useSelector(getPageSize);
   const currentPage = useSelector(getCurrentPage);
@@ -29,21 +22,19 @@ let Users: React.FC<MapStatePropsType & MapDispatchPropsType> = (props) => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    // @ts-ignore
     dispatch(getUsers(currentPage, pageSize));
   }, []);
 
-  // @ts-ignore
   let pagesCount = Math.ceil(totalUsersCount / pageSize);
 
   const onPageChanged = (pages: number) => {
-    // @ts-ignore
     dispatch(getUsers(pages, pageSize));
   };
 
   const unfollow = (userId: number) => {
     dispatch(unfollow(userId));
   };
+
   const follow = (userId: number) => {
     dispatch(follow(userId));
   };
@@ -59,8 +50,7 @@ let Users: React.FC<MapStatePropsType & MapDispatchPropsType> = (props) => {
         {pages.map((p) => {
           return (
             <span
-              // @ts-ignore
-              className={currentPage === p && s.selectedPage}
+              // className={currentPage === p && style.selectedPage}
               onClick={(e) => {
                 onPageChanged(p);
               }}>
@@ -70,43 +60,13 @@ let Users: React.FC<MapStatePropsType & MapDispatchPropsType> = (props) => {
         })}
       </div>
       {users.map((u) => (
-        <div key={u.id}>
-          <span>
-            <div>
-              <NavLink to={"/profile/" + u.id}>
-                <img
-                  src={u.photos.small != null ? u.photos.small : userPhoto}
-                  className={s.userPhoto}
-                />
-              </NavLink>
-            </div>
-            <div>
-              {u.followed ? (
-                <button
-                  disabled={followingInProgress.some((id) => id === u.id)}
-                  onClick={() => {
-                    unfollow(u.id);
-                  }}>
-                  Unfollow
-                </button>
-              ) : (
-                <button
-                  disabled={followingInProgress.some((id) => id === u.id)}
-                  onClick={() => {
-                    follow(u.id);
-                  }}>
-                  Follow
-                </button>
-              )}
-            </div>
-          </span>
-          <span>
-            <span>
-              <div>{u.name}</div>
-              <div>{u.status}</div>
-            </span>
-          </span>
-        </div>
+        <User
+          u={u}
+          followingInProgress={followingInProgress}
+          key={u.id}
+          unfollow={unfollow}
+          follow={follow}
+        />
       ))}
     </div>
   );

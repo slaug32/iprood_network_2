@@ -1,15 +1,6 @@
 import React from "react";
 import ProfileInfo from "./ProfileInfo/ProfileInfo.";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
-// import { ProfileType } from "../../types";
-
-// export type PropsType = {
-//   isOwner: boolean;
-//   profile: ProfileType | null;
-//   status: string;
-//   savePhoto: any;
-//   updateUserStatus: (status: string) => void;
-// };: React.FC<PropsType>
 
 const Profile = (props) => {
   return (
