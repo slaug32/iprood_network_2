@@ -44,6 +44,7 @@ class App extends React.Component<AppPropsType> {
 
   componentDidMount() {
     this.props.initialize();
+    console.log("start");
   }
   render() {
     if (!this.props.initialized) {
@@ -52,60 +53,61 @@ class App extends React.Component<AppPropsType> {
       return (
         <Layout style={{ minHeight: "100vh" }}>
           <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-            <div className='logo'>
+            <div className="logo">
               <HeaderContainer />
             </div>
             <Menu
               className={s.nav}
-              theme='dark'
-              mode='inline'
-              defaultSelectedKeys={["1"]}>
-              <Menu.Item key='1' icon={<UserOutlined />}>
+              theme="dark"
+              mode="inline"
+              defaultSelectedKeys={["1"]}
+            >
+              <Menu.Item key="1" icon={<UserOutlined />}>
                 <div className={s.item}>
-                  <NavLink to='/profile' activeClassName={s.activeLink}>
+                  <NavLink to="/profile" activeClassName={s.activeLink}>
                     My Profile
                   </NavLink>
                 </div>
               </Menu.Item>
-              <Menu.Item key='2' icon={<VideoCameraOutlined />}>
+              <Menu.Item key="2" icon={<VideoCameraOutlined />}>
                 <div className={`${s.item} ${s.active}`}>
-                  <NavLink to='/dialogs' activeClassName={s.activeLink}>
+                  <NavLink to="/dialogs" activeClassName={s.activeLink}>
                     Massages
                   </NavLink>
                 </div>
               </Menu.Item>
-              <Menu.Item key='3' icon={<UploadOutlined />}>
+              <Menu.Item key="3" icon={<UploadOutlined />}>
                 <div className={`${s.item} ${s.active}`}>
-                  <NavLink to='/users' activeClassName={s.activeLink}>
+                  <NavLink to="/users" activeClassName={s.activeLink}>
                     Users
                   </NavLink>
                 </div>
               </Menu.Item>
-              <Menu.Item key='4' icon={<CloseCircleOutlined />}>
+              <Menu.Item key="4" icon={<CloseCircleOutlined />}>
                 <div className={`${s.item} ${s.active}`}>
-                  <NavLink to='/news' activeClassName={s.activeLink}>
+                  <NavLink to="/news" activeClassName={s.activeLink}>
                     News
                   </NavLink>
                 </div>
               </Menu.Item>
-              <Menu.Item key='5' icon={<CloseCircleOutlined />}>
+              <Menu.Item key="5" icon={<CloseCircleOutlined />}>
                 <div className={`${s.item} ${s.active}`}>
-                  <NavLink to='/music' activeClassName={s.activeLink}>
+                  <NavLink to="/music" activeClassName={s.activeLink}>
                     Music
                   </NavLink>
                 </div>
               </Menu.Item>
-              <Menu.Item key='6' icon={<CloseCircleOutlined />}>
+              <Menu.Item key="6" icon={<CloseCircleOutlined />}>
                 <div className={`${s.item} ${s.active}`}>
-                  <NavLink to='/settings' activeClassName={s.activeLink}>
+                  <NavLink to="/settings" activeClassName={s.activeLink}>
                     Settings
                   </NavLink>
                 </div>
               </Menu.Item>
             </Menu>
           </Sider>
-          <Layout className='site-layout'>
-            <Header className='site-layout-background' style={{ padding: 0 }}>
+          <Layout className="site-layout">
+            <Header className="site-layout-background" style={{ padding: 0 }}>
               {React.createElement(
                 this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
                 {
@@ -115,23 +117,24 @@ class App extends React.Component<AppPropsType> {
               )}
             </Header>
             <Content
-              className='site-layout-background'
+              className="site-layout-background"
               style={{
                 margin: "24px 16px",
                 padding: 24,
                 minHeight: 280,
-              }}>
-              <div className='app-wrapper-content'>
-                <Route path='/dialogs' render={() => <DialogsContainer />} />
+              }}
+            >
+              <div className="app-wrapper-content">
+                <Route path="/dialogs" render={() => <DialogsContainer />} />
                 <Route
-                  path='/profile/:userId?'
+                  path="/profile/:userId?"
                   render={() => <ProfileContainer />}
                 />
-                <Route path='/users' render={() => <UsersContainer />} />
-                <Route path='/news' render={() => <PlugComponent />} />
-                <Route path='/music' render={() => <PlugComponent />} />
-                <Route path='/settings' render={() => <PlugComponent />} />
-                <Route path='/login' render={() => <LoginPage />} />
+                <Route path="/users" render={() => <UsersContainer />} />
+                <Route path="/news" render={() => <PlugComponent />} />
+                <Route path="/music" render={() => <PlugComponent />} />
+                <Route path="/settings" render={() => <PlugComponent />} />
+                <Route path="/login" render={() => <LoginPage />} />
               </div>
             </Content>
           </Layout>
